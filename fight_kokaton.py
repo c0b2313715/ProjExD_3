@@ -201,9 +201,10 @@ def main():
                 return
                 
         for j,bomb in enumerate(bombs):
-            for beam in beams:
+            for q,beam in enumerate(beams):
                 if beam.rct.colliderect(bomb.rct): #  ビームと爆弾が衝突したら
-                    beam,bombs[j] =None,None
+                    del beams[q]
+                    bombs[j] =None
                     bird.change_img(6,screen)
                     score.update(screen,get=1)   
                     pg.display.update()
