@@ -153,7 +153,7 @@ class Score:
         self.fonto = pg.font.SysFont("hgp創英角ポップ体",30)
         self.coler=(0,0,255)
         self.score=0
-        self.img = self.fonto.render(f"{self.score}",0,self.coler)
+        self.img = self.fonto.render(f"スコア:{self.score}",0,self.coler)
         self.center=(100,HEIGHT-50)
 
     def update(self,screen:pg.surface,get=0):
@@ -162,12 +162,22 @@ class Score:
         スクリーンbilt
         """
         self.score+=get
-        self.img=self.fonto.render(f"{self.score}",0,self.coler)
+        self.img=self.fonto.render(f"スコア:{self.score}",0,self.coler)
         self.rct=self.img.get_rect()
         self.rct.center=(self.center)
         screen.blit(self.img,self.rct)
 
 
+# class Explosin:
+#     def __init__(self,bom=(0,0)) -> None:
+#         self.img_e = pg.transform.rotozoom(pg.image.load("fig/explosin.gif"), 0, 0.9)
+#         self.img_e2 = pg.transform.flip(self.img_e, True, False)
+#         self.rct.center=bom
+#         self.life=5
+#     def update(self,screen:pg.surface):
+#         self.life-=count
+#         if self.life <=0 :
+                    
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
@@ -179,6 +189,7 @@ def main():
     clock = pg.time.Clock()
     tmr = 0
     beams=[]
+    exp=[]
 
     while True:
         for event in pg.event.get():
@@ -205,11 +216,15 @@ def main():
                 if beam.rct.colliderect(bomb.rct): #  ビームと爆弾が衝突したら
                     beam,bombs[j] =None,None
                     bird.change_img(6,screen)
-                    score.update(screen,get=1)   
+                    score.update(screen,get=1)
+                    #exp.append(Explosin(bomb))  
                     pg.display.update()
         for j,beam in enumerate(beams):
             if check_bound(beam.rct) != (True,True):
-                del beams[j] 
+                del beams[j]
+        # for q,expr in enumerate(exp):
+        #     if expr.life <=0:
+        #         del exp[q] 
         bombs =[bomb for bomb in bombs if bomb is not None]
         beams =[beam for beam in beams if beam is not None]
 
